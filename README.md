@@ -1,63 +1,43 @@
-# Helmet Detection & Safety Compliance System (YOLOv9 + Deep SORT)
+# 🛵 High-Density Traffic Helmet Detection & Tracking 
 
-This project implements a real-time safety compliance monitoring system using **YOLOv9** for object detection and **Deep SORT** for multi-object tracking. It detects helmet usage in video feeds and tracks individuals across frames to assess compliance in workplace and industrial safety scenarios.
+This repository contains an end-to-end Machine Learning pipeline designed to detect and track motorcycle riders and monitor safety gear (helmet) compliance. 
 
-The system demonstrates how modern computer vision techniques can be applied to improve safety monitoring, automate compliance checks, and reduce manual supervision.
+Built specifically for high-density, "lane-filtering" traffic scenarios common in the Philippines, the system leverages **YOLOv9** for state-of-the-art object detection and **Deep SORT** (Simple Online and Realtime Tracking) to maintain consistent identification even during complex urban maneuvers and temporary occlusions.
 
----
+## 📊 Project Output
+<video src="https://github.com/user-attachments/assets/decf72d9-ea89-4482-8dbe-2073850e03bb" autoplay loop muted playsinline width="100%"></video>
 
-## 🚀 Features
+> *Demonstration of the system maintaining tracking IDs (Deep SORT) across a high-density traffic flow.*
 
-- Real-time helmet detection using YOLOv9  
-- Multi-object tracking with Deep SORT  
-- Works on recorded videos and live camera feeds  
-- Scalable for broader PPE detection use cases  
+## 🛠️ The ML Lifecycle & Pipeline
+This project follows a structured Data Science workflow to ensure model robustness and tracking accuracy:
 
----
+1. **Pre-processing & Annotation:** Utilized **Roboflow** for dataset management, handling image augmentation and manual annotation of `Motorcycle`, `Rider`, and `Helmet` classes.
+2. **Model Training:** Employed **YOLOv9** to leverage its Programmable Gradient Information (PGI) for improved feature extraction on small targets (helmets).
+3. **Tracking Integration:** Integrated **Deep SORT** to assign and maintain unique IDs across frames. 
+4. **Hyperparameter Tuning:** Fine-tuned tracking parameters specifically for local traffic behavior.
+   * `max_age=50`: To keep tracks alive during frequent occlusions (lane filtering).
+   * `lr=0.01`: Initial Learning Rate.
+   * `epochs=50`: Total Training Iterations
+   * `batch=8`: Batch size for training
 
-## 🧠 Technologies Used
+## 📈 Model Evaluation
+The model was trained for 50 epochs and developed locally on an i7-10750H CPU and RTX 2060 GPU hardware environment for draft but on the final run, google collab was utilized.
 
-- **YOLOv9** – Object detection  
-- **Deep SORT** – Object tracking  
-- **OpenCV** – Video processing  
-- **PyTorch** – Model inference  
-- **Python**  
+| Training Metrics | Confusion Matrix |
+| :---: | :---: |
+| <img src="result/Training_Metrics.png" width="450"> | <img src="result/confusion_matrix.png" width="450"> |
+| *Steady convergence across classification and box loss functions.* | *92% accuracy in motorcycle identification.* |
 
----
+### Key Technical Insights:
+* **High Precision Detection:** The model achieves a **0.92** True Positive rate for motorcycles.
+* **Safety Gear Monitoring:** Successfully identifies helmets at a **0.77** rate, providing a solid foundation for compliance monitoring.
+* **Data Limitation Addressed:** The confusion matrix reveals a 44% background interference rate for helmets. In heavy urban traffic, circular background objects (like side mirrors or top boxes) occasionally trigger false positives. Future iterations will utilize a "negative sample" dataset to penalize these specific background shapes.
 
-## 📌 Use Cases
+## 🔬 Research & Development
+The full development process, including data handling, YOLOv9 integration, and the Deep SORT tracking logic, is documented in the central Jupyter Notebook. 
 
-- Industrial and construction site safety monitoring  
-- Automated PPE compliance detection  
-- Surveillance-based safety analytics  
-- Smart city and workplace vision systems  
-
----
-
-## ⚙️ System Workflow
-
-1. Video frames are captured from a camera or video file  
-2. YOLOv9 detects helmets and persons in each frame  
-3. Deep SORT assigns and maintains unique IDs for detected individuals  
-4. Safety compliance is evaluated and visualized in real time  
-
----
-
-## 🖥️ Output
-
-- Bounding boxes for detected rider and helmets  
-- Real-time visualization of compliance status  
-
----
-
-## 🔮 Future Improvements
-
-- Detection of additional PPE (vests, gloves, masks)  
-- Alert system for non-compliance  
-- Edge deployment optimization  
-- Dashboard for safety analytics  
-
----
+👉 **[View the Core Implementation Notebook](notebooks/Hyperparameter-1-Helmet-Detection-Using-YoloV9+DeepSort_Cleared_Output.ipynb)**
 
 ## 👤 Author
 
